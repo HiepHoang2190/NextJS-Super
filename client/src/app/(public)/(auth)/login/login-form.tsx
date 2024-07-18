@@ -17,6 +17,7 @@ import { useLoginMutation } from "@/queries/useAuth";
 import { Description } from "@radix-ui/react-toast";
 import { toast } from "@/components/ui/use-toast";
 import { handleErrorApi } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const loginMutation = useLoginMutation();
@@ -27,6 +28,7 @@ export default function LoginForm() {
       password: "",
     },
   });
+  const router = useRouter()
   const onSubmit = async (data: LoginBodyType) => {
     // Khi nhấn submit thì React hook form sẽ validate cái form bằng zod schema ở client trước
     // Nếu không pass qua vòng này thì sẽ không gọi api
@@ -36,6 +38,7 @@ export default function LoginForm() {
       toast({
         description: result.payload.message,
       });
+      router.push('/manage/dashboard')
     } catch (error: any) {
       handleErrorApi({
         error,
