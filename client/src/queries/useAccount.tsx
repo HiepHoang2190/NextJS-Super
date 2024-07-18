@@ -9,7 +9,8 @@ export const useAccountProfile = (
     queryKey: ["account-profile"],
     // queryFn: () =>
     //   accountApiRequest.me().then((res) => {
-    //     onSuccess && onSuccess(res.payload)
+    //     console.log(res)
+    //     if(onSuccess) onSuccess(res.payload)
     //     return res
     //   }),
     queryFn: accountApiRequest.me
