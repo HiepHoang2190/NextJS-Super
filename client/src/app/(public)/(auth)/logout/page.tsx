@@ -16,8 +16,9 @@ export default function LogoutPage() {
   useEffect(() => {
     if (
       ref.current ||
-      (refreshTokenFromUrl && refreshTokenFromUrl !== getRefreshTokenFromLocalStorage())||
+      (refreshTokenFromUrl && refreshTokenFromUrl !== getRefreshTokenFromLocalStorage()) ||
       (accessTokenFromUrl && accessTokenFromUrl !== getAccessTokenFromLocalStorage())
+      
     ) {
       return
     }
@@ -28,6 +29,11 @@ export default function LogoutPage() {
       }, 1000)
       router.push("/login")
     });
-  }, [mutateAsync, router, refreshTokenFromUrl, accessTokenFromUrl]);
-  return <div>Log out...</div>
+  }, [mutateAsync, router, refreshTokenFromUrl, accessTokenFromUrl])
+  return (
+   
+  <div>Log out...
+
+  </div>
+  )
 }

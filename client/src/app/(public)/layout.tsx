@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import DarkModeToggle from '@/components/dark-mode-toggle'
 import NavItems from '@/app/(public)/nav-items'
-
+import { Suspense } from "react"
 export default function Layout({
   children
 }: Readonly<{
@@ -42,7 +42,12 @@ export default function Layout({
           <DarkModeToggle />
         </div>
       </header>
-      <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8'>{children}</main>
+      <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8'>
+      <Suspense >
+            
+            {children}
+        </Suspense>
+        </main>
     </div>
   )
 }
