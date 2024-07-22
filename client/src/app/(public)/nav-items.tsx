@@ -1,11 +1,12 @@
 "use client";
 
-import { useAppContext } from "@/components/app-provider";
-import { getAccessTokenFromLocalStorage } from "@/lib/utils";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useAppContext } from "@/components/app-provider"
+import { getAccessTokenFromLocalStorage } from "@/lib/utils"
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
 const menuItems = [
+ 
   {
     title: "Món ăn",
     href: "/menu", // authRequired = undefined nghĩa là đăng nhập hay chưa đều hiển thị
@@ -35,18 +36,19 @@ export default function NavItems({ className }: { className?: string }) {
   // useEffect (() => {
   //   setIsAuth(Boolean(getAccessTokenFromLocalStorage()))
   // },[])
-  const { isAuth } = useAppContext();
+  const { isAuth } = useAppContext()
+  // console.log(isAuth)
   return menuItems.map((item) => {
     if (
       (item.authRequired === false && isAuth) ||
       (item.authRequired === true && !isAuth)
     )
-      return null;
+      return null
 
     return (
       <Link href={item.href} key={item.href} className={className}>
         {item.title}
       </Link>
-    );
-  });
+    )
+  })
 }

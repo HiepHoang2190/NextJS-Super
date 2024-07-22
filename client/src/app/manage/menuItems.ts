@@ -2,6 +2,11 @@ import { Home, LineChart, ShoppingCart, Users2, Salad, Table } from 'lucide-reac
 
 const menuItems = [
   {
+    title: 'Trang chủ',
+    Icon: Home,
+    href: '/'
+  },
+  {
     title: 'Dashboard',
     Icon: Home,
     href: '/manage/dashboard'
