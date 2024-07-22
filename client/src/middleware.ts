@@ -18,11 +18,15 @@ export function middleware(request: NextRequest) {
   }
   // Trường hợp đăng nhập rồi , nhưng accessToken lại hết hạn
   if (privatePaths.some((path) => pathname.startsWith(path)) && !accessToken && refreshToken) {
-    const url = new URL("/logout", request.url)
+    const url = new URL("/refresh-token", request.url)
     url.searchParams.set(
       "refreshToken",
       refreshToken
-    );
+    )
+    url.searchParams.set(
+      "redirect",
+      pathname
+    )
     return NextResponse.redirect(url)
   }
   // Đăng nhập vào rồi thì không cho vào login nữa
