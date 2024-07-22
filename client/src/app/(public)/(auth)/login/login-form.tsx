@@ -1,25 +1,25 @@
-"use client";
-import { Button } from "@/components/ui/button";
+"use client"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useLoginMutation } from "@/queries/useAuth";
-import { Description } from "@radix-ui/react-toast";
-import { toast } from "@/components/ui/use-toast";
-import { handleErrorApi, removeTokensFromLocalStorage } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-import { useAppContext } from "@/components/app-provider";
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { useForm } from "react-hook-form"
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useLoginMutation } from "@/queries/useAuth"
+import { Description } from "@radix-ui/react-toast"
+import { toast } from "@/components/ui/use-toast"
+import { handleErrorApi, removeTokensFromLocalStorage } from "@/lib/utils"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect } from "react"
+import { useAppContext } from "@/components/app-provider"
 
 export default function LoginForm() {
   const loginMutation = useLoginMutation()
@@ -32,7 +32,7 @@ export default function LoginForm() {
       email: "",
       password: "",
     },
-  });
+  })
   const router = useRouter()
   useEffect(()=>{
     if(clearTokens) {
@@ -47,15 +47,16 @@ export default function LoginForm() {
       const result = await loginMutation.mutateAsync(data);
       toast({
         description: result.payload.message,
-      });
+      })
+      setIsAuth(true)
       router.push('/manage/dashboard')
     } catch (error: any) {
       handleErrorApi({
         error,
         setError: form.setError,
-      });
+      })
     }
-  };
+  }
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -124,5 +125,5 @@ export default function LoginForm() {
         </Form>
       </CardContent>
     </Card>
-  );
+  )
 }
