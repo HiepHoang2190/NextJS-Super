@@ -56,6 +56,9 @@ export default function RefreshToken() {
     // Ví dụ thời gian hết hạn access token là 10s thì 1s mình sẽ cho check 1 lần
     const TIMEOUT = 1000
     interval = setInterval(checkAndRefreshToken, 1000)
+    return() => {
+      clearInterval(interval)
+    }
   },[pathname])
   return (null)
 }
