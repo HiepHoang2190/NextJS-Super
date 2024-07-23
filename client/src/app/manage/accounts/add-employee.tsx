@@ -1,5 +1,5 @@
-"use client";
-import { Button } from "@/components/ui/button";
+"use client"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -8,30 +8,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   CreateEmployeeAccountBody,
   CreateEmployeeAccountBodyType,
-} from "@/schemaValidations/account.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusCircle, Upload } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAddAccountMutation } from "@/queries/useAccount";
-import { useUploadMediaMutation } from "@/queries/useMedia";
-import { toast } from "@/components/ui/use-toast";
-import { handleErrorApi } from "@/lib/utils";
+} from "@/schemaValidations/account.schema"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { PlusCircle, Upload } from "lucide-react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { useForm } from "react-hook-form"
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useAddAccountMutation } from "@/queries/useAccount"
+import { useUploadMediaMutation } from "@/queries/useMedia"
+import { toast } from "@/components/ui/use-toast"
+import { handleErrorApi } from "@/lib/utils"
 
 export default function AddEmployee() {
-  const [file, setFile] = useState<File | null>(null);
-  const [open, setOpen] = useState(false);
-  const addAccountMutation = useAddAccountMutation();
-  const uploadMediaMutation = useUploadMediaMutation();
-  const avatarInputRef = useRef<HTMLInputElement | null>(null);
+  const [file, setFile] = useState<File | null>(null)
+  const [open, setOpen] = useState(false)
+  const addAccountMutation = useAddAccountMutation()
+  const uploadMediaMutation = useUploadMediaMutation()
+  const avatarInputRef = useRef<HTMLInputElement | null>(null)
   const form = useForm<CreateEmployeeAccountBodyType>({
     resolver: zodResolver(CreateEmployeeAccountBody),
     defaultValues: {
@@ -42,48 +42,48 @@ export default function AddEmployee() {
       confirmPassword: "",
     },
   });
-  const avatar = form.watch("avatar");
-  const name = form.watch("name");
+  const avatar = form.watch("avatar")
+  const name = form.watch("name")
 
   const previewAvatarFromFile = useMemo(() => {
     if (file) {
-      return URL.createObjectURL(file);
+      return URL.createObjectURL(file)
     }
-    return avatar;
-  }, [file, avatar]);
+    return avatar
+  }, [file, avatar])
 
   const reset = () => {
-    form.reset();
-    setFile(null);
-  };
+    form.reset()
+    setFile(null)
+  }
 
   const onSubmit = async (values: CreateEmployeeAccountBodyType) => {
     if (addAccountMutation.isPending) return;
     try {
-      let body = values;
+      let body = values
       if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
+        const formData = new FormData()
+        formData.append("file", file)
         const uploadImageResult = await uploadMediaMutation.mutateAsync(
           formData
-        );
+        )
         const imageUrl = uploadImageResult.payload.data;
         body = {
           ...values,
           avatar: imageUrl,
-        };
+        }
       }
-      const result = await addAccountMutation.mutateAsync(body);
+      const result = await addAccountMutation.mutateAsync(body)
       toast({
         description: result.payload.message,
-      });
+      })
       reset();
-      setOpen(false);
+      setOpen(false)
     } catch (error) {
       handleErrorApi({
         error,
         setError: form.setError,
-      });
+      })
     }
   };
 
@@ -137,7 +137,7 @@ export default function AddEmployee() {
                             setFile(file);
                             field.onChange(
                               "http://localhost:3000/" + file.name
-                            );
+                            )
                           }
                         }}
                         className="hidden"
@@ -235,5 +235,5 @@ export default function AddEmployee() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
