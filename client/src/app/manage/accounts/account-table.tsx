@@ -43,7 +43,9 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useSearchParams } from 'next/navigation'
 import AutoPagination from '@/components/auto-pagination'
-import { useGetAccountList } from '@/queries/useAccount'
+import { useDeleteAccountMutation, useGetAccountList } from '@/queries/useAccount'
+import { toast } from '@/components/ui/use-toast'
+import { handleErrorApi } from '@/lib/utils'
 
 type AccountItem = AccountListResType['data'][0]
 
@@ -104,6 +106,7 @@ export const columns: ColumnDef<AccountType>[] = [
   },
   {
     id: 'actions',
+    header: 'Actions',
     enableHiding: false,
     cell: function Actions({ row }) {
       const { setEmployeeIdEdit, setEmployeeDelete } = useContext(AccountTableContext)
@@ -141,6 +144,22 @@ function AlertDialogDeleteAccount({
   employeeDelete: AccountItem | null
   setEmployeeDelete: (value: AccountItem | null) => void
 }) {
+  const {mutateAsync} = useDeleteAccountMutation()
+  const deleteAccount = async() => {
+    if(employeeDelete) {
+      try {
+        const result = await mutateAsync(employeeDelete.id)
+        setEmployeeDelete(null)
+        toast({
+          title: result.payload.message
+        })
+      } catch (error) {
+        handleErrorApi({
+          error
+        })
+      }
+    }
+  }
   return (
     <AlertDialog
       open={Boolean(employeeDelete)}
@@ -160,7 +179,7 @@ function AlertDialogDeleteAccount({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={deleteAccount}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
