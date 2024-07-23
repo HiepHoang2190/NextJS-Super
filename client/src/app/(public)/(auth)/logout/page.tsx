@@ -36,7 +36,7 @@ export default function LogoutPage() {
       router.push('/')
     }
   
-  }, [mutateAsync, router, refreshTokenFromUrl, accessTokenFromUrl])
+  }, [mutateAsync, router, refreshTokenFromUrl, accessTokenFromUrl, setIsAuth])
   return (
    
   <div>Log out...

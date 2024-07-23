@@ -6,9 +6,9 @@ import {
 } from "@/lib/utils"
 import { useLogoutMutation } from "@/queries/useAuth"
 import { useRouter, useSearchParams } from "next/navigation"
-import React, { useEffect } from "react"
+import React, { Suspense, useEffect } from "react"
 
-export default function RefreshTokenPage() {
+function RefreshToken() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const refreshTokenFromUrl = searchParams.get("refreshToken")
@@ -19,15 +19,20 @@ export default function RefreshTokenPage() {
       refreshTokenFromUrl === getRefreshTokenFromLocalStorage()
     ) {
       checkAndRefreshToken({
-        onSuccess: ()=> {
-          router.push(redirectPathname || '/')
+        onSuccess: () => {
+          router.push(redirectPathname || "/")
         },
-      
       })
     } else {
-      router.push('/')
+      router.push("/")
     }
- 
-  }, [ router, refreshTokenFromUrl,redirectPathname]);
-  return <div>Refresh Token...</div>;
+  }, [router, refreshTokenFromUrl, redirectPathname])
+  return <div>Refresh Token...</div>
+}
+export default function RefreshTokenPage() {
+  return (
+    <Suspense fallback={<div>Loading ...</div>}>
+      <RefreshToken></RefreshToken>
+    </Suspense>
+  );
 }
