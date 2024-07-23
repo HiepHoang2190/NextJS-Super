@@ -19,11 +19,11 @@ import { toast } from "@/components/ui/use-toast"
 import { handleErrorApi } from "@/lib/utils"
 
 export default function UpdateProfileForm() {
-  const [file, setFile] = useState<File | null>(null);
-  const avatarInputRef = useRef<HTMLInputElement>(null);
-  const { data, refetch } = useAccountMe();
-  const updateMeMutation = useUpdateMeMutation();
-  const uploadMediaMutation = useUploadMediaMutation();
+  const [file, setFile] = useState<File | null>(null)
+  const avatarInputRef = useRef<HTMLInputElement>(null)
+  const { data, refetch } = useAccountMe()
+  const updateMeMutation = useUpdateMeMutation()
+  const uploadMediaMutation = useUploadMediaMutation()
   const form = useForm<UpdateMeBodyType>({
     resolver: zodResolver(UpdateMeBody),
     defaultValues: {
@@ -52,7 +52,7 @@ export default function UpdateProfileForm() {
   const reset = () => {
     form.reset()
     setFile(null)
-  };
+  }
   const onSubmit = async (values: UpdateMeBodyType) => {
     if (updateMeMutation.isPending) return
     try {
