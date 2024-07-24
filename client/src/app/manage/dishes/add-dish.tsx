@@ -60,14 +60,14 @@ export default function AddDish() {
   const name = form.watch("name")
   const previewAvatarFromFile = useMemo(() => {
     if (file) {
-      return URL.createObjectURL(file);
+      return URL.createObjectURL(file)
     }
     return image
   }, [file, image])
   const reset = () => {
     form.reset()
     setFile(null)
-  };
+  }
   const onSubmit = async (values: CreateDishBodyType) => {
     if (addDishMutation.isPending) return
     try {
@@ -77,8 +77,8 @@ export default function AddDish() {
         formData.append("file", file)
         const uploadImageResult = await uploadMediaMutation.mutateAsync(
           formData
-        );
-        const imageUrl = uploadImageResult.payload.data;
+        )
+        const imageUrl = uploadImageResult.payload.data
         body = {
           ...values,
           image: imageUrl,
@@ -99,7 +99,15 @@ export default function AddDish() {
   }
 
   return (
-    <Dialog onOpenChange={setOpen} open={open}>
+    <Dialog
+      onOpenChange={(value) => {
+        if (!value) {
+          reset()
+        }
+        setOpen(value)
+      }}
+      open={open}
+    >
       <DialogTrigger asChild>
         <Button size="sm" className="h-7 gap-1">
           <PlusCircle className="h-3.5 w-3.5" />
@@ -117,7 +125,7 @@ export default function AddDish() {
             noValidate
             className="grid auto-rows-max items-start gap-4 md:gap-8"
             id="add-dish-form"
-            onSubmit={form.handleSubmit(onSubmit, (e)=>{
+            onSubmit={form.handleSubmit(onSubmit, (e) => {
               console.log(e)
             })}
             onReset={reset}
@@ -140,12 +148,12 @@ export default function AddDish() {
                         accept="image/*"
                         ref={imageInputRef}
                         onChange={(e) => {
-                          const file = e.target.files?.[0];
+                          const file = e.target.files?.[0]
                           if (file) {
                             setFile(file)
                             field.onChange(
                               "http://localhost:3000/" + file.name
-                            );
+                            )
                           }
                         }}
                         className="hidden"
