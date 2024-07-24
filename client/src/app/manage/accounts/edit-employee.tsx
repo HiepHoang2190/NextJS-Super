@@ -41,8 +41,8 @@ export default function EditEmployee({
     id: id as number,
     enabled: Boolean(id),
   })
-  const updateAccountMutation = useUpdateAccountMutation();
-  const uploadMediaMutation = useUploadMediaMutation();
+  const updateAccountMutation = useUpdateAccountMutation()
+  const uploadMediaMutation = useUploadMediaMutation()
   const form = useForm<UpdateEmployeeAccountBodyType>({
     resolver: zodResolver(UpdateEmployeeAccountBody),
     defaultValues: {
